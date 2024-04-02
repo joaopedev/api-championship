@@ -18,23 +18,25 @@ export class UsersService {
       const emailExists = await this.userModel.findOne({ email }).exec();
       const userNameExists = await this.userModel.findOne({ username }).exec();
 
-      if (cpfExists || emailExists || userNameExists) {
+      if (cpfExists) {
         throw new BadRequestException(
-          `O username: ${username} e/ou email: ${email} e/ou cpf: ${cpf} já existe no banco de dados.`,
+          `CPF inválido e/ou já existente.`,
         );
-      }
+      };
+      if (emailExists) {
+        throw new BadRequestException(
+          `E-Mail inválido e/ou já existente.`,
+        );
+      };
+      if (userNameExists) {
+        throw new BadRequestException(
+          `Username inválido e/ou já existente.`,
+        );
+      };
 
       let hashedPassword = encodePassword(createUserDto.password);
       hashedPassword = password;
-      await this.userModel.create({
-        name,
-        username,
-        email,
-        password,
-        cpf,
-        sex,
-        birth
-      })
+
 
       const newUser = new this.userModel({
         ...createUserDto,
@@ -47,7 +49,7 @@ export class UsersService {
     }
   }
 
-  async findAll() {
+  findAll() {
     return this.userModel.find();
   }
 
@@ -82,4 +84,6 @@ export class UsersService {
       console.error(error)
     } 
   }
+
+
 }

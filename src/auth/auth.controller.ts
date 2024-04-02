@@ -19,7 +19,7 @@ import {
     constructor(private authService: AuthService) {}
   
     @HttpCode(HttpStatus.ACCEPTED)
-    @Post('email/login')
+    @Post('login')
     async singIn(@Body() singInDto: SingInDto) {
       const response = await this.authService.singIn(singInDto);
       return response;
