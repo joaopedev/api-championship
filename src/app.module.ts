@@ -15,9 +15,7 @@ import { AuthModule } from './auth/auth.module';
       isGlobal: true,
     }),
     TypeOrmModule,
-    MongooseModule.forRoot(process.env.DATABASE_URL, {
-      connectionName: 'teste'
-    }),
+    MongooseModule.forRoot(process.env.DATABASE_PASSWORD),
   ],
   controllers: [AppController],
   providers: [AppService],
