@@ -7,7 +7,7 @@ export type UserDocument = HydratedDocument<User>;
 
 @Schema()
 export class User {
-  @PrimaryGeneratedColumn("uuid")
+  @PrimaryGeneratedColumn('uuid')
   id: number;
 
   @Prop()
