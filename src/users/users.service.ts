@@ -6,6 +6,7 @@ import { User } from './entities/user.entity';
 import { Model } from 'mongoose';
 import { encodePassword } from 'src/utils/bcrypt';
 
+
 @Injectable()
 export class UsersService {
   constructor(@InjectModel(User.name) private userModel: Model<User>) {}
@@ -85,5 +86,17 @@ export class UsersService {
     } 
   }
 
+  async remove(id: string): Promise<any> {
+    try {
+      const userId = await this.userModel.findById(id).exec();
+      if (!userId) {
+        throw new ForbiddenException('Usuário não encontrado.');
+      }
+      return this.userModel.deleteOne({ _id: id }).exec();
+    } catch (error) {
+      console.error(error);
+      throw error; 
+    }
+  };
 
 }
